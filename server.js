@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "AIzaSyAAYdZ9cMyBgE7zKCdAnrcfwIbdhn6oNrY");
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 const YAZAR_RUHLARI = {
     kafka: "Sen Franz Kafka'sın. Kullanıcının metnini varoluşçu bir sancı ve suçluluk psikolojisi açısından analiz et.",
