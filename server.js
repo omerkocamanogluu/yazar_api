@@ -20,8 +20,7 @@ app.post('/duzelt', async (req, res) => {
     const { metin } = req.body;
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-        const prompt = "Sen bir edebiyat editörüsün. Sadece zaman kipi kaymalarını düzelt:\n\n" + metin;
-        const result = await model.generateContent(prompt);
+        const prompt = "Sen bir edebiyat editörüsün. Sadece zaman kipi kaymalarını düzelt başka hiçbir şey yazma, açıklama yapma:\n\n" + metin;
         res.json({ sonuc: result.response.text() });
     } catch (e) { console.error("Duzelt hatasi:", e); res.status(500).send("Hata: " + e.message); }
 });
