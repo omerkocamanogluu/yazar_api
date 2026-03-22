@@ -19,7 +19,7 @@ const YAZAR_RUHLARI = {
 app.post('/duzelt', async (req, res) => {
     const { metin } = req.body;
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         const prompt = "Sen bir edebiyat editörüsün. Sadece zaman kipi kaymalarını düzelt:\n\n" + metin;
         const result = await model.generateContent(prompt);
         res.json({ sonuc: result.response.text() });
@@ -30,7 +30,7 @@ app.post('/duzelt', async (req, res) => {
 app.post('/analiz', async (req, res) => {
     const { metin, yazar } = req.body;
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         const sistemMesaji = YAZAR_RUHLARI[yazar] || "Sen usta bir eleştirmensin.";
         const result = await model.generateContent(sistemMesaji + "\n\nMetin:\n" + metin);
         res.json({ sonuc: result.response.text() });
