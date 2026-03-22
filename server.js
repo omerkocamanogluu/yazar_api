@@ -53,5 +53,6 @@ app.post('/bas', (req, res) => {
     } catch (e) { res.status(500).send("Matbaa hatası!"); }
 });
 
-// ✅ cPanel Passenger için kritik satır
-module.exports = app;
+// Railway PORT env variable'ını kullan
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Yazar Akademisi Motoru Hazır! Port: ${PORT}`));
