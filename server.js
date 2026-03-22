@@ -21,6 +21,7 @@ app.post('/duzelt', async (req, res) => {
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         const prompt = "Sen bir edebiyat editörüsün. Sana verilen metindeki zaman kipi kaymalarını düzelt. Çıktı olarak sadece düzeltilmiş metni ver, kesinlikle açıklama yapma veya giriş cümlesi kullanma:\n\n" + metin;
+        const result = await model.generateContent(prompt);
         res.json({ sonuc: result.response.text() });
     } catch (e) { console.error("Duzelt hatasi:", e); res.status(500).send("Hata: " + e.message); }
 });
