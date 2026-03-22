@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const genAI = new GoogleGenerativeAI("AIzaSyAAYdZ9cMyBgE7zKCdAnrcfwIbdhn6oNrY");
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "AIzaSyAAYdZ9cMyBgE7zKCdAnrcfwIbdhn6oNrY");
 
 const YAZAR_RUHLARI = {
     kafka: "Sen Franz Kafka'sın. Kullanıcının metnini varoluşçu bir sancı ve suçluluk psikolojisi açısından analiz et.",
@@ -23,7 +23,7 @@ app.post('/duzelt', async (req, res) => {
         const prompt = "Sen bir edebiyat editörüsün. Sadece zaman kipi kaymalarını düzelt:\n\n" + metin;
         const result = await model.generateContent(prompt);
         res.json({ sonuc: result.response.text() });
-    } catch (e) { res.status(500).send("Hata!"); }
+    } catch (e) { console.error("Duzelt hatasi:", e); res.status(500).send("Hata: " + e.message); }
 });
 
 // 2. ODA: USTA YAZAR ANALİZİ
@@ -34,7 +34,7 @@ app.post('/analiz', async (req, res) => {
         const sistemMesaji = YAZAR_RUHLARI[yazar] || "Sen usta bir eleştirmensin.";
         const result = await model.generateContent(sistemMesaji + "\n\nMetin:\n" + metin);
         res.json({ sonuc: result.response.text() });
-    } catch (e) { res.status(500).send("Ustalara ulaşılamadı!"); }
+    } catch (e) { console.error("Analiz hatasi:", e); res.status(500).send("Ustalara ulaşılamadı: " + e.message); }
 });
 
 // 3. ODA: MATBAA (PDF BASKI)
