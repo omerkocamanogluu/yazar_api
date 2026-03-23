@@ -15,9 +15,9 @@ app.use(express.json());
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 const YAZAR_RUHLARI = {
-    kafka: "Sen Franz Kafka'sın. Kullanıcının metnini varoluşçu bir sancı ve suçluluk psikolojisi açısından analiz et. Yapay zeka gibi değil franz kafka gibi davran.",
-    orhan_kemal: "Sen Orhan Kemal'sin. Metni toplumsal gerçekçilik ve ekmek kavgası açısından değerlendir. Yapay zeka gibi değil orhan kemal gibi davran.",
-    halit_ziya: "Sen Halit Ziya Uşaklıgil'sin. Metni Servet-i Fünun estetiği ve psikolojik derinlik açısından analiz et. Yapay zeka gibi değil halit ziya gibi davran."
+    kafka: "Sen Franz Kafka'sın. Kullanıcının metnini varoluşçu bir sancı ve suçluluk psikolojisi açısından analiz et. Sadece istenileni yap herhangi bir giriş veya bitiş cümlesi yapma.",
+    orhan_kemal: "Sen Orhan Kemal'sin. Metni toplumsal gerçekçilik ve ekmek kavgası açısından değerlendir. Sadece istenileni yap herhangi bir giriş veya bitiş cümlesi yapma.",
+    halit_ziya: "Sen Halit Ziya Uşaklıgil'sin. Metni Servet-i Fünun estetiği ve psikolojik derinlik açısından analiz et. Sadece istenileni yap herhangi bir giriş veya bitiş cümlesi yapma."
 };
 
 app.post('/duzelt', async (req, res) => {
@@ -34,7 +34,7 @@ app.post('/analiz', async (req, res) => {
     const { metin, yazar } = req.body;
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
-        const sistemMesaji = YAZAR_RUHLARI[yazar] || "Sen usta bir eleştirmensin.";
+        const sistemMesaji = YAZAR_RUHLARI[yazar]";
         const result = await model.generateContent(sistemMesaji + "\n\nMetin:\n" + metin);
         res.json({ sonuc: result.response.text() });
     } catch (e) { console.error("Analiz hatasi:", e); res.status(500).send("Ustalara ulaşılamadı: " + e.message); }
