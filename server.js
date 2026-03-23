@@ -35,7 +35,6 @@ app.post('/duzelt', async (req, res) => {
  
 app.post('/analiz', async (req, res) => {
     const { metin, yazar } = req.body;
- }
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
         const sistemMesaji = YAZAR_RUHLARI[yazar];
@@ -179,4 +178,5 @@ p:first-of-type { text-indent: 0; }
 });
  
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`
+app.listen(PORT, () => console.log(`Yazar Akademisi Motoru Hazır! Port: ${PORT}`));
+ 
