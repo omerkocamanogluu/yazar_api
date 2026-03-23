@@ -35,6 +35,7 @@ app.post('/duzelt', async (req, res) => {
  
 app.post('/analiz', async (req, res) => {
     const { metin, yazar } = req.body;
+ }
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
         const sistemMesaji = YAZAR_RUHLARI[yazar];
