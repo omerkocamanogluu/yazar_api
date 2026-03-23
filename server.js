@@ -34,7 +34,7 @@ app.post('/analiz', async (req, res) => {
     const { metin, yazar } = req.body;
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
-        const sistemMesaji = YAZAR_RUHLARI[yazar]";
+        const sistemMesaji = YAZAR_RUHLARI[yazar];
         const result = await model.generateContent(sistemMesaji + "\n\nMetin:\n" + metin);
         res.json({ sonuc: result.response.text() });
     } catch (e) { console.error("Analiz hatasi:", e); res.status(500).send("Ustalara ulaşılamadı: " + e.message); }
