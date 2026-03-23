@@ -176,7 +176,40 @@ p:first-of-type { text-indent: 0; }
         res.status(500).send("EPUB hatası: " + e.message);
     }
 });
- 
+
+app.post('/hizli-analiz', async (req, res) => {
+    const { metin } = req.body;
+    try {
+        if (!metin || metin.length < 10) {
+            return res.status(400).send("Analiz için daha uzun bir metin girin.");
+        }
+
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        
+        // Gemini'yi sadece JSON formatında yanıt vermeye zorluyoruz
+        const prompt = `Sen acımasız ve net bir metin analistisin. Verilen metni incele ve SADECE geçerli bir JSON formatında şu 3 değeri dön. Hiçbir açıklama yapma, markdown ( \`\`\`json ) kullanma. Sadece saf JSON:
+        {
+            "okunabilirlik": "0 ile 100 arası bir skor (Sadece sayı)",
+            "duygu": "Metnin ana duygusu (Max 2 kelime)",
+            "ritim": "Cümle temposu (Max 3 kelime, örn: Kısa ve vurucu)"
+        }
+        
+        Metin:
+        ${metin}`;
+
+        const result = await model.generateContent(prompt);
+        let sonucText = result.response.text().trim();
+        
+        // Eğer Gemini inat edip ```json yazarsa diye güvenlik zırhı:
+        sonucText = sonucText.replace(/```json/g, '').replace(/```/g, '');
+        
+        const jsonVeri = JSON.parse(sonucText);
+        res.json(jsonVeri);
+    } catch (e) { 
+        console.error("Analiz Odası Hatası:", e);
+        res.status(500).send("Analiz motoru arızalandı."); 
+    }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Yazar Akademisi Motoru Hazır! Port: ${PORT}`));
  
